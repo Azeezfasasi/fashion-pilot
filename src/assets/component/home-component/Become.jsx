@@ -19,7 +19,7 @@ function Become() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus a dolor convallis efficitur.
           </div>
         </div>
-        <Link to="" className="bg-white rounded-[3px] py-3 px-6 flex flex-row gap-3 items-center justify-center shadow hover:bg-primary-50 transition border border-primary-100">
+        <Link to="/register" className="bg-white rounded-[3px] py-3 px-6 flex flex-row gap-3 items-center justify-center shadow hover:bg-primary-50 transition border border-primary-100">
           <span className="text-primary-500 font-semibold text-base md:text-lg">Register now</span>
           <img className="w-6 h-6" src={arrowright} alt="arrow" />
         </Link>
@@ -38,7 +38,7 @@ function Become() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus a dolor convallis efficitur.
           </div>
         </div>
-        <Link to="" className="bg-white rounded-[3px] py-3 px-6 flex flex-row gap-3 items-center justify-center shadow hover:bg-primary-50 transition border border-primary-100">
+        <Link to="/register" className="bg-white rounded-[3px] py-3 px-6 flex flex-row gap-3 items-center justify-center shadow hover:bg-primary-50 transition border border-primary-100">
           <span className="text-primary-500 font-semibold text-base md:text-lg">Register now</span>
           <img className="w-6 h-6" src={arrowright} alt="arrow" />
         </Link>

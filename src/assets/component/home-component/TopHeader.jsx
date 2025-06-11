@@ -25,16 +25,16 @@ function TopHeader() {
           <Link to="/" className="py-3.5 flex items-center md:text-primary-500 text-gray-700 font-semibold hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
             Home
           </Link>
-          <Link to="/joblist" className="py-3.5 flex items-center text-gray-600 hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
+          <Link to="/app/joblist" className="py-3.5 flex items-center text-gray-600 hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
             Find Job
           </Link>
-          <Link to="/findemployers" className="py-3.5 flex items-center text-gray-600 hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
+          <Link to="/app/findemployers" className="py-3.5 flex items-center text-gray-600 hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
             Employers
           </Link>
-          <Link to="/pricingplan" className="py-3.5 flex items-center text-gray-600 hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
+          <Link to="/app/pricingplan" className="py-3.5 flex items-center text-gray-600 hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
             Pricing Plans
           </Link>
-          <Link to="/customersupport" className="py-3.5 flex items-center text-gray-600 hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
+          <Link to="/app/customersupport" className="py-3.5 flex items-center text-gray-600 hover:text-primary-600 transition-colors" onClick={() => setMenuOpen(false)}>
             Customer Supports
           </Link>
         </div>

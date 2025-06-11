@@ -3,8 +3,19 @@ import time from '../../images/time.svg';
 import stack from '../../images/stack.svg';
 import wallet from '../../images/wallet.svg';
 import bluebriefcase from '../../images/bluebriefcase.svg';
+import useJob from '../../context-api/job/useJob';
 
 function JobDescriptionOverview() {
+  const { job, loading } = useJob();
+
+  if (loading || !job) {
+    return (
+      <div className="w-full flex justify-center items-center py-10">
+        <span>Loading job overview...</span>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white border border-[#e7f0fa] rounded-lg pt-8 pb-8 flex flex-col gap-6 items-center justify-start w-full max-w-3xl mx-auto px-2 sm:px-6 relative">
       <div className="flex flex-col gap-5 items-start justify-center w-full">
@@ -18,7 +29,7 @@ function JobDescriptionOverview() {
           </div>
           <div className="flex flex-col gap-1 items-start w-full">
             <div className="text-gray-500 text-xs uppercase">Job Posted:</div>
-            <div className="text-gray-900 text-sm font-medium">14 Jun, 2021</div>
+            <div className="text-gray-900 text-sm font-medium">{job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'N/A'}</div>
           </div>
         </div>
         {/* Box 2 */}
@@ -28,7 +39,7 @@ function JobDescriptionOverview() {
           </div>
           <div className="flex flex-col gap-1 items-start w-full">
             <div className="text-gray-500 text-xs uppercase">Job Type:</div>
-            <div className="text-gray-900 text-sm font-medium">Full Time</div>
+            <div className="text-gray-900 text-sm font-medium">{job.contract || 'N/A'}</div>
           </div>
         </div>
         {/* Box 3 */}
@@ -38,7 +49,7 @@ function JobDescriptionOverview() {
           </div>
           <div className="flex flex-col gap-1 items-start w-full">
             <div className="text-gray-500 text-xs uppercase">Experience:</div>
-            <div className="text-gray-900 text-sm font-medium">3+ Years</div>
+            <div className="text-gray-900 text-sm font-medium">{job.experience || 'N/A'}</div>
           </div>
         </div>
         {/* Box 4 */}
@@ -48,7 +59,7 @@ function JobDescriptionOverview() {
           </div>
           <div className="flex flex-col gap-1 items-start w-full">
             <div className="text-gray-500 text-xs uppercase">Salary:</div>
-            <div className="text-gray-900 text-sm font-medium">$100k - $120k</div>
+            <div className="text-gray-900 text-sm font-medium">{job.salary || 'N/A'}</div>
           </div>
         </div>
         {/* Box 5 */}
@@ -58,7 +69,7 @@ function JobDescriptionOverview() {
           </div>
           <div className="flex flex-col gap-1 items-start w-full">
             <div className="text-gray-500 text-xs uppercase">Position:</div>
-            <div className="text-gray-900 text-sm font-medium">Senior UX Designer</div>
+            <div className="text-gray-900 text-sm font-medium">{job.title || 'N/A'}</div>
           </div>
         </div>
       </div>

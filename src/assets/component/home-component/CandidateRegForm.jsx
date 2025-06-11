@@ -4,7 +4,7 @@ import { UserContext } from "../../context-api/user/UserContext";
 
 function CandidateRegForm () {
     const navigate = useNavigate();
-    const { register, loading, error } = useContext(UserContext);
+    const { register, login, loading, error } = useContext(UserContext);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -25,7 +25,11 @@ function CandidateRegForm () {
             role: "candidate"
         });
         if (success) {
-            navigate('/app/dashboard');
+            // Auto-login after registration
+            const loginSuccess = await login(email, password);
+            if (loginSuccess) {
+                navigate('/candidate/accountsetup');
+            }
         }
     };
 

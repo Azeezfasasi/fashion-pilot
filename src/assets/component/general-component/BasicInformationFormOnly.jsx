@@ -1,8 +1,50 @@
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../../context-api/user/UserContext';
 
-const BasicInformationFormOnly = () => {
+const BasicInformationFormOnly = ({ onNext }) => {
+  const { user, updateProfile, loading, error } = useContext(UserContext);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [headline, setHeadline] = useState('');
+  const [experience, setExperience] = useState('');
+  const [education, setEducation] = useState('');
+  const [website, setWebsite] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setProfilePicture(user.profilePicture || null);
+      setFirstName(user.firstName || '');
+      setLastName(user.lastName || '');
+      setHeadline(user.headline || '');
+      setExperience(user.experience || '');
+      setEducation(user.education || '');
+      setWebsite(user.website || '');
+    }
+  }, [user]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+     const success = await updateProfile({
+      profilePicture,
+      firstName,
+      lastName,
+      headline,
+      experience,
+      education,
+      website,
+    });
+    console.log(success);
+    if (success) {
+      console.log('onNext:', onNext);
+      if (onNext) onNext();
+    }
+  }
+  
   return (
     <div className="font-sans antialiased bg-gray-50 min-h-screen p-6 flex justify-center items-start">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8 w-full">
+      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8 w-full">
+        {error && <div className="text-red-600 text-sm">{error}</div>}
         {/* Basic Information Section Header */}
         <h2 className="text-xl font-semibold text-gray-800 mb-6">Basic Information</h2>
 
@@ -11,7 +53,7 @@ const BasicInformationFormOnly = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
             <div className="relative w-48 h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-center p-4">
-              <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" />
+              <input type="file" value={profilePicture} onChange={(e) => setProfilePicture(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
               <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a3 3 0 013 3v10a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h4"></path>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0l-3-3m3 3l3-3"></path>
@@ -28,12 +70,25 @@ const BasicInformationFormOnly = () => {
           {/* Basic Info Form Fields */}
           <div className="space-y-6 md:col-span-1">
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Full name</label>
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">First name</label>
               <input
                 type="text"
-                id="fullName"
+                id="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Enter full name"
+                placeholder="Enter First name"
+              />
+            </div>
+            <div>
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Last name</label>
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)} 
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                placeholder="Enter Last name"
               />
             </div>
             <div>
@@ -41,6 +96,8 @@ const BasicInformationFormOnly = () => {
               <input
                 type="text"
                 id="headline"
+                value={headline}
+                onChange={(e) => setHeadline(e.target.value)}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 placeholder="e.g., Senior Product Designer"
               />
@@ -50,6 +107,8 @@ const BasicInformationFormOnly = () => {
                 <label htmlFor="experience" className="block text-sm font-medium text-gray-700 mb-1">Experience</label>
                 <select
                   id="experience"
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white pr-8"
                 >
                   <option>Select...</option>
@@ -63,6 +122,8 @@ const BasicInformationFormOnly = () => {
                 <label htmlFor="education" className="block text-sm font-medium text-gray-700 mb-1">Educations</label>
                 <select
                   id="education"
+                  value={education}
+                  onChange={(e) => setEducation(e.target.value)}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white pr-8"
                 >
                   <option>Select...</option>
@@ -83,7 +144,9 @@ const BasicInformationFormOnly = () => {
                 </span>
                 <input
                   type="url"
-                  id="personalWebsite"
+                  id="website"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
                   className="flex-1 block w-full rounded-none rounded-r-md border-gray-300 py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="Website url..."
                 />
@@ -94,11 +157,11 @@ const BasicInformationFormOnly = () => {
 
         {/* Save Changes Button */}
         <div className="mt-8 flex justify-start">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200">
-            Save Changes
+          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200" disabled={loading}>
+            Save & Continue
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

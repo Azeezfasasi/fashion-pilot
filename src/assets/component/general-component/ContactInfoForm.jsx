@@ -1,21 +1,32 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../../context-api/user/UserContext';
 
-const ContactInfoForm = () => {
-  // State for form fields (example using string for phone number)
-  const [mapLocation, setMapLocation] = useState('');
-  const [countryCode, setCountryCode] = useState('');
+const ContactInfoForm = ({onNext}) => {
+  const { user, updateProfile, loading, error } = useContext(UserContext);
+  const [location, setLocation] = useState('');
+  const [country, setCountry] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setLocation(user.location || '');
+      setCountry(user.country || '');
+      setPhoneNumber(user.phoneNumber || '');
+      setEmail(user.email || '');
+    }
+  }, [user]);
 
   // Handler for input changes
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     switch (id) {
-      case 'mapLocation':
-        setMapLocation(value);
+      case 'location':
+        setLocation(value);
         break;
-      case 'countryCode':
-        setCountryCode(value);
+      case 'country':
+        setCountry(value);
         break;
       case 'phoneNumber':
         setPhoneNumber(value);
@@ -28,17 +39,20 @@ const ContactInfoForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to a backend or update global state
-    console.log({
-      mapLocation,
-      fullPhoneNumber: `${countryCode}${phoneNumber}`,
+     const success = await updateProfile({
+      location,
+      country,
+      phoneNumber,
       email,
     });
-    // Add logic for saving changes, e.g., showing a success message
-    alert('Changes saved (Check console for data)!');
-  };
+    console.log(success);
+    if (success) {
+      console.log('onNext:', onNext);
+      if (onNext) onNext();
+    }
+  }
 
   return (
     <div className="font-sans antialiased bg-gray-50 p-6 flex justify-center items-start">
@@ -46,6 +60,23 @@ const ContactInfoForm = () => {
         <h2 className="text-xl font-semibold text-gray-800 mb-6">Contact Info</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {error && <div className="text-red-600 text-sm">{error}</div>}
+
+          {/* Country */}
+          <div>
+            <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+            <div className="mt-1 flex rounded-md shadow-sm border border-solid border-gray-200">
+              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                <i className="fa-solid fa-phone"></i>
+              </span>
+              <select name="country" id="country" value={country} onChange={handleInputChange} className="flex-1 block w-full rounded-none rounded-r-md border-gray-300 py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <option value="">Select</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Ghana">Ghana</option>
+              </select>
+            </div>
+          </div>
+
             {/* Address */}
           <div>
             <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">Address Location</label>
@@ -55,8 +86,8 @@ const ContactInfoForm = () => {
               </span>
               <input
                 type="text"
-                id="mapLocation"
-                value={mapLocation}
+                id="location"
+                value={location}
                 onChange={handleInputChange}
                 className="flex-1 block w-full rounded-none rounded-r-md border-gray-300 py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 placeholder="Enter your address"
@@ -93,21 +124,27 @@ const ContactInfoForm = () => {
                 type="email"
                 id="email"
                 value={email}
-                onChange={handleInputChange}
-                className="flex-1 block w-full rounded-none rounded-r-md border-gray-300 py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                disabled
+                className="flex-1 block w-full rounded-none rounded-r-md border-gray-300 py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-gray-300"
                 placeholder="Email address"
               />
             </div>
           </div>
 
           {/* Save Changes Button */}
-          <div className="mt-8">
+          <div className="mt-8 flex flex-row justify-start items-start gap-6">
             <button
               type="submit"
               className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200"
+              disabled={loading}
             >
               Save Changes
             </button>
+            <Link to='/app/dashboard'
+              className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200"
+            >
+              Go To Dashboard
+            </Link>
           </div>
         </form>
       </div>

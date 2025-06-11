@@ -5,7 +5,6 @@ import MainHeader from '../assets/component/home-component/MainHeader';
 import Hero from '../assets/component/home-component/Hero';
 import MostRecentVacancy from '../assets/component/home-component/MostRecentVacancy';
 import HowItWorks from '../assets/component/home-component/HowItWorks';
-import JobCategoryComponent from '../assets/component/home-component/JobCategoryComponent';
 import FeaturedJobs from '../assets/component/home-component/FeaturedJobs';
 import Testimonial from '../assets/component/home-component/Testimonial';
 import Become from '../assets/component/home-component/Become';
@@ -25,7 +24,6 @@ function Home() {
     <Hero />
     <MostRecentVacancy />
     <HowItWorks />
-    <JobCategoryComponent />
     <FeaturedJobs />
     <Testimonial />
     <Become />

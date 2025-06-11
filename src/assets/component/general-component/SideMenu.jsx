@@ -9,14 +9,14 @@ import { UserContext } from '../../context-api/user/UserContext';
 
 const navItems = [
   { key: '/app/dashboard', label: 'Overview', icon: <DashboardIcon />, roles: ['candidate', 'employer'] },
+  { key: '/employer/myjobs', label: 'My Jobs', icon: <DashboardIcon />, roles: ['employer'] },
+  { key: '/employer/applicants', label: 'Applicants', icon: <DashboardIcon />, roles: ['employer'] },
   { key: '/candidate/appliedjobs', label: 'Applied Jobs', icon: <GroupIcon />, roles: ['candidate'] },
-  { key: '/candidate/favoritejobs', label: 'Favorite Jobs', icon: <GroupIcon />, roles: ['candidate'] },
-  { key: '/app/dashboard', label: 'Profile', icon: <GroupIcon />, roles: ['candidate', 'employer'] },
+  { key: '/candidate/favoritejobs', label: 'Favorite Jobs', icon: <GroupIcon />, roles: ['candidate', 'employer'] },
   { key: '/candidate/candidatesettings', label: 'Candidate Settings', icon: <GroupIcon />, roles: ['candidate'] },
   { key: '/employer/employersettings', label: 'Employer Settings', icon: <GroupIcon />, roles: ['employer'] },
-  { key: '/post-job', label: 'Post a Job', icon: <GroupIcon />, roles: ['employer'] },
-  { key: '/plans-billings', label: 'Plans & Billings', icon: <GroupIcon />, roles: ['employer'] },
-  // { key: '/logout', label: 'Logout', icon: <GroupIcon />, roles: ['candidate', 'employer'] },
+  { key: '/app/postjob', label: 'Post a Job', icon: <GroupIcon />, roles: ['employer'] },
+  { key: '/employer/plansandbilling', label: 'Plans & Billings', icon: <GroupIcon />, roles: ['employer'] },
 ];
 
 const SideMenu = () => {

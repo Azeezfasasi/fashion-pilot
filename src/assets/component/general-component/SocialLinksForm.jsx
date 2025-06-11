@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../../context-api/user/UserContext';
 
 const CloseIcon = ({ className = 'h-5 w-5' }) => (
   <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -13,7 +14,9 @@ const AddIcon = ({ className = 'h-5 w-5' }) => (
 );
 
 
-const SocialLinksForm = () => {
+const SocialLinksForm = ({ onNext }) => {
+  const { user, updateProfile, loading, error } = useContext(UserContext);
+  
   const [socialLinks, setSocialLinks] = useState([
     { id: 1, platform: 'Facebook', url: '', label: 'Social Link 1' },
     { id: 2, platform: 'Twitter', url: '', label: 'Social Link 2' },
@@ -55,9 +58,35 @@ const SocialLinksForm = () => {
     );
   };
 
+  useEffect(() => {
+    if (user && Array.isArray(user.socialLinks)) {
+      setSocialLinks(
+        user.socialLinks.map((url, idx) => ({
+          id: Date.now() + idx,
+          platform: '', // Optionally, try to guess platform from url
+          url,
+          label: `Social Link ${idx + 1}`,
+        }))
+      );
+    }
+  }, [user]);
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      // Only send the url strings
+      const linksToSave = socialLinks.map(link => link.url).filter(Boolean);
+      const success = await updateProfile({
+        socialLinks: linksToSave
+      });
+      if (success) {
+        if (onNext) onNext();
+      }
+    };
+
   return (
     <div className="font-sans antialiased bg-gray-50 min-h-screen p-6 flex justify-center items-start">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8 w-full">
+      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8 w-full">
+        {error && <div className="text-red-600 text-sm">{error}</div>}
         <h2 className="text-xl font-semibold text-gray-800 mb-6">Social Links</h2>
 
         <div className="space-y-6">
@@ -123,11 +152,11 @@ const SocialLinksForm = () => {
 
         {/* Save Changes Button */}
         <div className="mt-8 flex justify-start">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200">
-            Save Changes
+          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200" disabled={loading}>
+            Save & Continue
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

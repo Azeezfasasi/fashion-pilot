@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { UserContext } from "./UserContext";
+import { API_BASE_URL } from "../../config/api";
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -25,7 +26,7 @@ export const UserProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post("http://localhost:5000/api/users/login", {
+      const res = await axios.post(`${API_BASE_URL}/users/login`, {
         email,
         password,
       });
@@ -51,7 +52,7 @@ export const UserProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      await axios.post("http://localhost:5000/api/users/register", data);
+      await axios.post(`${API_BASE_URL}/users/register`, data);
       return true;
     } catch (err) {
       setError(
@@ -74,7 +75,7 @@ export const UserProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get("http://localhost:5000/api/users/me");
+      const res = await axios.get(`${API_BASE_URL}/users/me`);
       setUser(res.data);
     } catch (err) {
       setError(
@@ -94,7 +95,7 @@ export const UserProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.put("http://localhost:5000/api/users/me", updates);
+      const res = await axios.put(`${API_BASE_URL}/users/me`, updates);
       setUser(res.data);
       return true;
     } catch (err) {
@@ -108,6 +109,30 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
+  // Function to add favorite
+    const addFavorite = async (jobId) => {
+      await fetch(`${API_BASE_URL}/users/favorites/${jobId}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    };
+  
+    //  function to remove favorite
+    const removeFavorite = async (jobId) => {
+      await fetch(`${API_BASE_URL}/users/favorites/${jobId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    };
+  
+    //  function to fetch all favorite
+    const fetchFavorites = async () => {
+      const res = await fetch(`${API_BASE_URL}/users/favorites`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return res.json();
+    };
 
   const isAdmin = user?.role === "admin";
   const isCandidate = user?.role === "candidate";
@@ -128,6 +153,9 @@ export const UserProvider = ({ children }) => {
         isAdmin,
         isCandidate,
         isEmployer,
+        addFavorite,
+        removeFavorite,
+        fetchFavorites,
       }}
     >
       {children}

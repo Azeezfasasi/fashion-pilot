@@ -1,60 +1,28 @@
-
-
-const jobs = [
-  {
-    id: 1,
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Upwork_Logo.svg',
-    title: 'Networking Engineer',
-    type: 'Remote',
-    location: 'Washington',
-    salary: '$50k-80k/month',
-    dateApplied: 'Feb 2, 2019 19:28',
-    status: 'Active',
-    companyColor: 'bg-green-100',
-  },
-  {
-    id: 2,
-    logo: 'https://cdn.worldvectorlogo.com/logos/dribbble-icon-1.svg',
-    title: 'Product Designer',
-    type: 'Full Time',
-    location: 'Dhaka',
-    salary: '$50k-80k/month',
-    dateApplied: 'Dec 7, 2019 23:26',
-    status: 'Active',
-    companyColor: 'bg-pink-100',
-  },
-  {
-    id: 3,
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
-    title: 'Junior Graphic Designer',
-    type: 'Temporary',
-    location: 'Brazil',
-    salary: '$50k-80k/month',
-    dateApplied: 'Feb 2, 2019 19:28',
-    status: 'Active',
-    companyColor: 'bg-black',
-  },
-  {
-    id: 4,
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
-    title: 'Visual Designer',
-    type: 'Contract Base',
-    location: 'Wisconsin',
-    salary: '$50k-80k/month',
-    dateApplied: 'Dec 7, 2019 23:26',
-    status: 'Active',
-    companyColor: 'bg-blue-100 border border-blue-300',
-  },
-];
+import { useEffect, useState } from 'react';
+import useApplication from '../../context-api/application/UseApplication';
+// import useJob from '../../context-api/job/useJob';
 
 function JobApplied() {
+  const { applications, fetchMyApplications, loading, error } = useApplication();
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    fetchMyApplications();
+    // eslint-disable-next-line
+  }, []);
+
+  const handleViewDetails = (job) => {
+    setSelectedJob(job);
+    setShowModal(true);
+  };
+
   return (
     <div className="bg-white p-6 rounded-md shadow-sm">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">Applied Jobs (76)</h3>
+        <h3 className="text-lg font-semibold text-gray-800">Applied Jobs ({applications.length})</h3>
       </div>
-
       {/* Table Header */}
       <div className="grid grid-cols-5 bg-gray-500 text-white text-sm font-medium border-b pb-2 px-2 py-2">
         <div className="col-span-2">Job</div>
@@ -62,63 +30,118 @@ function JobApplied() {
         <div>Status</div>
         <div>Action</div>
       </div>
-
       {/* Job Rows */}
       <div className="space-y-3 mt-4">
-        {jobs.map((job) => (
-          <div
-            key={job.id}
-            className={`grid grid-cols-5 items-center p-3 rounded-md hover:bg-gray-50 transition hover:border hover:border-blue-300 ${
-              job.title === 'Visual Designer' ? '' : ''
-            }`}
-          >
-            {/* Job Info */}
-            <div className="col-span-2 flex items-center gap-4">
-              <div className={`p-2 rounded-md ${job.companyColor}`}>
-                <img src={job.logo} alt={job.title} className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-semibold text-gray-800">{job.title}</p>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <span>{job.location}</span>
-                  <span>•</span>
-                  <span>{job.salary}</span>
-                  <span
-                    className={`ml-2 px-2 py-0.5 rounded text-white text-[10px] font-semibold ${
-                      job.type === 'Remote'
-                        ? 'bg-blue-500'
-                        : job.type === 'Full Time'
-                        ? 'bg-blue-400'
-                        : job.type === 'Temporary'
-                        ? 'bg-purple-500'
-                        : 'bg-cyan-600'
-                    }`}
-                  >
-                    {job.type}
-                  </span>
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div className="text-red-600">{error}</div>
+        ) : applications.length === 0 ? (
+          <div className="text-gray-600">You have not applied to any jobs yet.</div>
+        ) : (
+          applications.map((app) => (
+            <div
+              key={app._id}
+              className="grid grid-cols-5 items-center p-3 rounded-md hover:bg-gray-50 transition hover:border hover:border-blue-300"
+            >
+              {/* Job Info */}
+              <div className="col-span-2 flex items-center gap-4">
+                <div className="p-2 rounded-md bg-gray-100">
+                  <img src={app.job?.employer?.logo || '/default-logo.png'} alt={app.job?.title} className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-800">{app.job?.title}</p>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span>{app.job?.location}</span>
+                    <span>•</span>
+                    <span>{app.job?.salary}</span>
+                    <span className="ml-2 px-2 py-0.5 rounded text-white text-[10px] font-semibold bg-blue-500">
+                      {app.job?.contract || 'N/A'}
+                    </span>
+                  </div>
                 </div>
               </div>
+              {/* Date Applied */}
+              <div className="text-sm text-gray-700">{app.createdAt ? new Date(app.createdAt).toLocaleString() : ''}</div>
+              {/* Status */}
+              <div className="text-green-600 font-medium text-sm flex items-center gap-1">
+                ✓ {app.status}
+              </div>
+              {/* Action */}
+              <div>
+                <button
+                  className="bg-blue-600 text-white text-sm font-medium px-3 py-1.5 rounded-md hover:bg-blue-700 transition"
+                  onClick={() => handleViewDetails(app.job)}
+                >
+                  View Details
+                </button>
+              </div>
             </div>
-
-            {/* Date Applied */}
-            <div className="text-sm text-gray-700">{job.dateApplied}</div>
-
-            {/* Status */}
-            <div className="text-green-600 font-medium text-sm flex items-center gap-1">
-              ✓ {job.status}
+          ))
+        )}
+      </div>
+      {/* Modal for job details */}
+      {showModal && selectedJob && (
+        <div className="fixed inset-0 shadow-md flex items-center justify-center z-50">
+          <div className="bg-pink-50 rounded-lg shadow-lg p-8 max-w-lg w-full relative border border-solid border-gray-300">
+            <button
+              className="absolute top-1 right-2 text-red-700 text-[48px] hover:text-red-900"
+              onClick={() => setShowModal(false)}
+            >
+              &times;
+            </button>
+            <h2 className="text-xl font-bold mb-2">{selectedJob.title}</h2>
+            <div className="mb-2 text-gray-700 flex flex-row justify-start gap-1 items-start">
+              <div className='font-semibold text-blue-500'>Job Description:</div>
+              {selectedJob.description}
             </div>
-
-            {/* Action */}
-            <div>
-              <button className="bg-blue-600 text-white text-sm font-medium px-3 py-1.5 rounded-md hover:bg-blue-700 transition">
-                View Details
+            <div className="mb-2 text-gray-600 text-sm flex flex-row justify-start gap-1 items-start"> 
+              <div className='font-semibold text-blue-500'>Application Status:</div>
+              
+            </div>
+            <div className="mb-2 text-gray-600 text-sm flex flex-row justify-start gap-1 items-start"> 
+              <div className='font-semibold text-blue-500'>Location:</div>
+              {selectedJob.location}
+            </div>
+            <div className="mb-2 text-gray-600 text-sm flex flex-row justify-start gap-1 items-start">
+              <div className='font-semibold text-blue-500'>Salary:</div>
+              {selectedJob.salary}
+            </div>
+            <div className="mb-2 text-gray-600 text-sm flex flex-row justify-start gap-1 items-start">
+              <div className='font-semibold text-blue-500'>Type:</div> 
+              {selectedJob.contract}
+            </div>
+            <div className="mb-2 text-gray-600 text-sm flex flex-row justify-start gap-1 items-start">
+              <div className='font-semibold text-blue-500'>Status:</div>
+              {selectedJob.status}
+            </div>
+            <div className="mb-2 text-gray-600 text-sm">
+              <div className='font-semibold text-blue-500'>Requirements:</div>
+              {selectedJob.requirements?.join(', ')}
+            </div>
+            <div className="mb-2 text-gray-600 text-sm flex flex-row justify-start gap-1 items-start"> 
+              <div className='font-semibold text-blue-500'>Employer:</div>
+              {selectedJob.employer?.companyName || selectedJob.employer?.company || 'Company'}
+            </div>
+            <div className='flex flex-row justify-end gap-3'>
+              <button
+              className="bg-blue-600 text-white text-[20px] py-1 px-3 hover:text-white border rounded-lg cursor-pointer"
+              onClick={window.print}
+              >
+                Print
+              </button>
+              <button
+              className="bg-red-500 text-white text-[20px] py-1 px-3 hover:text-white border rounded-lg cursor-pointer"
+              onClick={() => setShowModal(false)}
+              >
+                Close
               </button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default JobApplied;

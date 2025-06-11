@@ -6,7 +6,7 @@ import { UserContext } from '../../context-api/user/UserContext';
 function DashProfileHeaderDropdown() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
-    const { logout, isEmployer, isCandidate } = useContext(UserContext);
+    const { logout, isEmployer, isCandidate, user } = useContext(UserContext);
 
     useEffect(() => {
     function handleClickOutside(event) {
@@ -32,12 +32,16 @@ function DashProfileHeaderDropdown() {
     <div className="flex gap-3 items-center">
         <div className="relative" ref={dropdownRef}>
             <button
-            className="rounded border-gray-100 py-0 md:py-3 px-0 md:px-6 flex items-center hover:bg-primary-50 transition focus:outline-none cursor-pointer"
+            className="rounded border-gray-100 py-0 md:py-3 px-0 md:px-6 flex items-center gap-2 hover:bg-primary-50 transition focus:outline-none cursor-pointer"
             onClick={() => setDropdownOpen((open) => !open)}
             aria-haspopup="true"
             aria-expanded={dropdownOpen}
             >
-            <img className='w-[50px] h-[50px]' src={account} alt="Account" />
+                <img className='w-[50px] h-[50px]' src={account} alt="Account" />
+                <div>
+                {isEmployer && <div className='font-semibold'>{user.company}</div>}
+                {isCandidate && <div className='font-semibold'>{user.firstName} {user.lastName}</div>}
+            </div>
             </button>
             {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50">
@@ -50,7 +54,7 @@ function DashProfileHeaderDropdown() {
             </div>
             )}
         </div>
-        <Link to="/postjob" className="hidden bg-[#0A65CC] rounded py-3 px-6 md:flex items-center hover:bg-primary-600 transition border">
+        <Link to="/app/postjob" className="hidden bg-[#0A65CC] rounded py-3 px-6 md:flex items-center hover:bg-primary-600 transition border">
             <div className="text-white font-medium">Post a Job</div>
         </Link>
     </div>

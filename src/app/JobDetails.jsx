@@ -9,7 +9,6 @@ function JobDetails() {
     <>
     <TopHeader />
     <MainHeader />
-    {/* <Breadcrumb /> */}
     <JobDescription />
     <Footer />
     </>
