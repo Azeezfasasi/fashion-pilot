@@ -35,7 +35,7 @@ function MainHeader() {
               <span className="text-gray-800 font-medium hidden md:inline">{user.firstName || user.company}</span>
             </Link>
           )}
-        <Link to="/postjob" className="bg-[#0A65CC] rounded py-3 px-6 flex items-center hover:bg-primary-600 transition border">
+        <Link to="/app/postjob" className="bg-[#0A65CC] rounded py-3 px-6 flex items-center hover:bg-primary-600 transition border">
           <div className="text-white font-medium">Post a Job</div>
         </Link>
       </div>

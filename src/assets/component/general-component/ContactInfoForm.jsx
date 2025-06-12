@@ -145,6 +145,11 @@ const ContactInfoForm = ({onNext}) => {
             >
               Go To Dashboard
             </Link>
+            <Link to='/app/joblist'
+              className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-3 lg:px-6 rounded-md shadow-sm transition-colors duration-200"
+            >
+              Find Jobs
+            </Link>
           </div>
         </form>
       </div>

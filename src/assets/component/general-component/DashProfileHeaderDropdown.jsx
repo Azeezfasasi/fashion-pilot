@@ -54,9 +54,14 @@ function DashProfileHeaderDropdown() {
             </div>
             )}
         </div>
-        <Link to="/app/postjob" className="hidden bg-[#0A65CC] rounded py-3 px-6 md:flex items-center hover:bg-primary-600 transition border">
+        {isEmployer && <Link to="/app/postjob" className="hidden bg-[#0A65CC] rounded py-3 px-6 md:flex items-center hover:bg-primary-600 transition border">
             <div className="text-white font-medium">Post a Job</div>
         </Link>
+        }
+        {isCandidate && <Link to="/app/joblist" className="hidden bg-[#0A65CC] rounded py-3 px-6 md:flex items-center hover:bg-primary-600 transition border">
+            <div className="text-white font-medium">Find Jobs</div>
+        </Link>
+        }
     </div>
     </>
   )

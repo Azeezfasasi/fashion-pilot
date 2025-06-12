@@ -84,7 +84,7 @@ function JobApplied() {
     {/* Modal for job details */}
     {showModal && selectedJob && (
       <div className="fixed inset-0 shadow-md flex items-center justify-center z-50 bg-black bg-opacity-30 px-2">
-        <div className="bg-pink-50 rounded-lg shadow-lg p-4 sm:p-8 max-w-lg w-full relative border border-solid border-gray-300">
+        <div className="bg-pink-50 rounded-lg shadow-lg p-4 sm:p-8 max-w-lg w-full relative border border-solid border-gray-300 overflow-y-scroll h-screen">
           <button
             className="absolute top-1 right-2 text-red-700 text-3xl sm:text-[48px] hover:text-red-900"
             onClick={() => setShowModal(false)}

@@ -2,7 +2,6 @@ import DashboardHeader from "../assets/component/general-component/DashboardHead
 import DashboardSummary from "../assets/component/general-component/DashboardSummary"
 import RecentApplied from "../assets/component/general-component/RecentApplied"
 import SideMenu from "../assets/component/general-component/SideMenu"
-import TopHeader from "../assets/component/home-component/TopHeader"
 
 function Dashboard() {
   return (
