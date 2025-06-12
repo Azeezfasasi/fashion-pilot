@@ -1,6 +1,6 @@
-import search from '../../images/search.svg'
 import heroright from '../../images/heroright.svg'
 import ButtomHero from './ButtomHero'
+import HeroSearch from './HeroSearch'
 
 function Hero() {
   return (
@@ -13,35 +13,19 @@ function Hero() {
               Find a job that suits your interest &amp; skills.
             </div>
             <div className="text-gray-600 text-left font-[400] text-base sm:text-lg md:text-[18px] leading-[20px] md:leading-[28px] font-[Inter-Regular, sans-serif] relative w-full">
-              Aliquam vitae turpis in diam convallis finibus in at risus. Nullam in scelerisque leo, eget sollicitudin velit bestibulum.
+              Discover thousands of opportunities and connect with top employers. Start your journey to a rewarding career today.
             </div>
           </div>
           <div className="flex flex-col gap-4 items-start justify-start shrink-0 relative w-full">
             <div className="bg-white rounded-lg border border-gray-100 p-2 sm:p-3 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-start shadow-2xl relative z-5 w-full">
-              <div className="flex flex-col sm:flex-row gap-3 w-full">
-                {/* Job keyword search */}
-                <div className="flex flex-row items-center bg-gray-scale-white rounded-[5px] p-2.5 w-full sm:w-[230px] h-12 sm:h-14 border border-gray-200">
-                  <img className="w-6 h-6" src={search} />
-                  <input type="search" className="w-[full] h-full bg-transparent outline-none pl-2 sm:pl-10 pr-2.5" placeholder="Job title, Keyword..." />
-                </div>
-                {/* Location search */}
-                <div className="flex flex-row items-center bg-gray-scale-white rounded-[5px] p-2.5 w-full sm:w-[230px] h-12 sm:h-14 border border-gray-200">
-                  <img className="w-6 h-6" src={search} />
-                  <input type="search" className="w-full h-full bg-transparent outline-none pl-2 sm:pl-10 pr-2.5" placeholder="Your Location" />
-                </div>
-                <button type='submit' className="bg-[#0a65cc] rounded py-0 px-6 flex flex-row gap-3 items-center justify-center w-full sm:w-[25%] mt-2 sm:mt-0">
-                  <div className="text-white text-left font-button-button-font-family text-[16px] leading-[24px] font-[600] relative">
-                    Find Job
-                  </div>
-                </button>
-              </div>
+              <HeroSearch />
             </div>
-            <div className="flex flex-row gap-1 items-start justify-start shrink-0 relative text-sm sm:text-base">
+            <div className="flex flex-row gap-1 items-start justify-start relative text-sm sm:text-base">
               <div className="text-[#9199a3] text-center font-body-small-400-font-family leading-[20px] font-[400] relative">
                 Suggestion:
               </div>
-              <div className="text-[#474c54] text-center font-body-small-400-font-family leading-[20px] font-[400] relative">
-                Designer, Programming, Digital Marketing, Video, Animation.
+              <div className="text-[#474c54] text-left font-body-small-400-font-family leading-[20px] font-[400] relative">
+                Fashion Designer, Pattern Maker, Textile Specialist, Fashion Marketing etc.
               </div>
             </div>
           </div>

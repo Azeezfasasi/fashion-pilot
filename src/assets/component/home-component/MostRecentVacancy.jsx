@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../config/api";
+import { Link, useNavigate } from "react-router-dom";
 
 function MostRecentVacancy() {
   const [recentCompanies, setRecentCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -41,6 +43,10 @@ function MostRecentVacancy() {
     fetchJobs();
   }, []);
 
+  const handleEmployerClick = (employerId) => {
+    navigate(`/app/joblist?employer=${employerId}`);
+  };
+
   return (
     <>
       <div
@@ -57,7 +63,7 @@ function MostRecentVacancy() {
             <div className="col-span-4 text-center text-gray-500">No recent vacancies found.</div>
           ) : (
             recentCompanies.map((item, idx) => (
-              <div key={item.company + idx} className="flex flex-col gap-2 items-start justify-start bg-gray-50 rounded-lg p-4 shadow-sm w-full">
+              <div onClick={handleEmployerClick} key={item.company + idx} className="flex flex-col gap-2 items-start justify-start bg-blue-100 rounded-lg p-4 shadow-sm w-full border border-solid border-gray-300 cursor-pointer">
                 <div className="text-[#18191c] text-left font-body-large-500-font-family text-base sm:text-[18px] leading-6 sm:leading-[28px] font-[500]">
                   {item.company}
                 </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import briefcase from '../../images/briefcase.svg';
-import company from '../../images/company.svg';
+// import company from '../../images/company.svg';
 import candidates from '../../images/candidates.svg';
 import { API_BASE_URL } from '../../config/api';
 
@@ -52,8 +52,9 @@ function ButtomHero() {
       </div>
       {/* Card 2 */}
       <div className="bg-gray-white rounded-lg p-5 flex flex-row gap-5 items-center bg-white shadow-sm border border-solid border-gray-200 w-full sm:w-auto max-w-xs sm:max-w-none justify-center sm:justify-start">
-        <div className="bg-[#0a65cc] rounded p-4 flex items-center justify-center">
-          <img className="w-10 h-10" src={company} />
+        <div className=" rounded p-4 flex items-center justify-center">
+          {/* <img className="w-10 h-10" src={company} /> */}
+          <i className="fa-regular fa-building text-[#0a65cc] text-[35px]"></i>
         </div>
         <div className="flex flex-col gap-1.5 items-start">
           <div className="text-gray-900 font-semibold text-xl sm:text-2xl w-auto">{loading ? '...' : stats.companies}</div>

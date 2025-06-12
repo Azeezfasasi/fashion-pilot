@@ -132,16 +132,16 @@ const ContactInfoForm = ({onNext}) => {
           </div>
 
           {/* Save Changes Button */}
-          <div className="mt-8 flex flex-row justify-start items-start gap-6">
+          <div className="mt-8 flex flex-col lg:flex-row justify-start items-center lg:items-start gap-4 lg:gap-6">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 lg:px-6 rounded-md shadow-sm transition-colors duration-200"
               disabled={loading}
             >
               Save Changes
             </button>
             <Link to='/app/dashboard'
-              className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200"
+              className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-3 lg:px-6 rounded-md shadow-sm transition-colors duration-200"
             >
               Go To Dashboard
             </Link>

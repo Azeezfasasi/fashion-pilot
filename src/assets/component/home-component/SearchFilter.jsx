@@ -1,16 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import search from '../../images/search.svg'
 import locationblue from '../../images/locationblue.svg'
-import useJob from '../../context-api/job/useJob';
 
 function SearchFilter() {
-  const [keyword, setKeyword] = useState('');
-  const [location, setLocation] = useState('');
-  const { searchJobs } = useJob();
+  const locationObj = useLocation();
+  const navigate = useNavigate();
+
+  // Read params from URL
+  const params = new URLSearchParams(locationObj.search);
+  const initialKeyword = params.get('keyword') || '';
+  const initialLocation = params.get('location') || '';
+
+  const [keyword, setKeyword] = useState(initialKeyword);
+  const [location, setLocation] = useState(initialLocation);
+
+  // Keep state in sync with URL (when navigating back/forward)
+  useEffect(() => {
+    setKeyword(initialKeyword);
+    setLocation(initialLocation);
+    // eslint-disable-next-line
+  }, [locationObj.search]);
 
   const handleFilter = (e) => {
     e.preventDefault();
-    searchJobs(keyword, location);
+    const params = new URLSearchParams();
+    if (keyword) params.append('keyword', keyword);
+    if (location) params.append('location', location);
+    navigate(`/app/joblist?${params.toString()}`);
   };
 
   return (
@@ -56,4 +73,4 @@ function SearchFilter() {
   )
 }
 
-export default SearchFilter
+export default SearchFilter;

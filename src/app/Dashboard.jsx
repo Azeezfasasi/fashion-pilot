@@ -7,7 +7,7 @@ import TopHeader from "../assets/component/home-component/TopHeader"
 function Dashboard() {
   return (
     <>
-    <TopHeader />
+    {/* <TopHeader /> */}
     <DashboardHeader />
     <div className="w-full flex flex-col lg:flex-row">
       <div className="w-full hidden lg:block lg:w-[20%] mb-4 lg:mb-0">

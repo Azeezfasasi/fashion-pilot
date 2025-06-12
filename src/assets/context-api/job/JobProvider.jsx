@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { JobContext } from './JobContext';
 import { UserContext } from '../user/UserContext';
 import { API_BASE_URL } from "../../config/api";
@@ -155,9 +155,9 @@ export const JobProvider = ({ children }) => {
   };
 
   // Optionally, fetch jobs on mount
-  useEffect(() => {
-    fetchJobs();
-  }, []);
+  // useEffect(() => {
+  //   fetchJobs();
+  // }, []);
 
   return (
     <JobContext.Provider

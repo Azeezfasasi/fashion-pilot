@@ -56,7 +56,8 @@ const CompanyProfileForm = ({ onNext }) => {
       logo: logoFile ? logoFile.name : '',
       bannerImage: bannerFile ? bannerFile.name : '',
     });
-    console.log(success);
+    if (onNext) onNext();
+    console.log('Success result:', success);
     if (success) {
       console.log('onNext:', onNext);
       if (onNext) onNext();

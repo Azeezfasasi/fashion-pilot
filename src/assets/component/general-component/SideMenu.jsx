@@ -23,7 +23,7 @@ const SideMenu = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useContext(UserContext);
+  const { user, isEmployer, isCandidate } = useContext(UserContext);
   const userRole = user?.role?.toLowerCase();
 
   const filteredNavItems = navItems.filter(item => item.roles.includes(userRole));
@@ -41,7 +41,8 @@ const SideMenu = () => {
             <CloseIcon size={20} />
           </button>
           <Sidenav.Body>
-            <div className='font-bold text-gray-400 text-[20px] mt-3 text-left lg:text-left pl-2'>Candidate Dashboard</div>
+            {isCandidate && <div className='font-bold text-gray-400 text-[20px] mt-3 text-left lg:text-left pl-2'>Candidate Dashboard</div>}
+            {isEmployer && <div className='font-bold text-gray-400 text-[20px] mt-3 text-left lg:text-left pl-2'>Employer Dashboard</div>}
             <Nav
               activeKey={location.pathname}
               onSelect={key => {

@@ -61,7 +61,7 @@ function DashboardSummary() {
             <div className="text-sm text-gray-600">{isEmployer ? "Candidates" : "Applied Jobs"}</div>
           </div>
           <div className="bg-white p-2 rounded-md">
-            <img src="https://www.svgrepo.com/show/497763/briefcase.svg" alt="Briefcase" className="w-5 h-5 text-blue-500" />
+            <i className="fa-solid fa-users text-blue-500"></i>
           </div>
         </div>
 
@@ -76,7 +76,7 @@ function DashboardSummary() {
             <div className="text-sm text-gray-600">Favorite Jobs</div>
           </div>}
           <div className="bg-white p-2 rounded-md">
-            <img src="https://www.svgrepo.com/show/510109/bookmark.svg" alt="Bookmark" className="w-5 h-5 text-yellow-500" />
+            <i className="fa-solid fa-briefcase text-yellow-500"></i>
           </div>
         </div>
 
@@ -87,7 +87,7 @@ function DashboardSummary() {
             <div className="text-sm text-gray-600">Opened Jobs</div>
           </div>
           <div className="bg-white p-2 rounded-md">
-            <img src="https://www.svgrepo.com/show/514280/bell.svg" alt="Alert" className="w-5 h-5 text-green-600" />
+            <i className="fa-solid fa-briefcase text-green-600"></i>
           </div>
         </div>
         }
@@ -99,7 +99,7 @@ function DashboardSummary() {
             <div className="text-sm text-gray-600">Closed Jobs</div>
           </div>
           <div className="bg-white p-2 rounded-md">
-            <img src="https://www.svgrepo.com/show/514280/bell.svg" alt="Alert" className="w-5 h-5 text-green-600" />
+            <i className="fa-solid fa-briefcase text-red-600"></i>
           </div>
         </div>
         }

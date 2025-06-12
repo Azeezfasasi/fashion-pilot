@@ -146,11 +146,11 @@ const EmployerSocialLinksForm = ({ onNext, onPrevious }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="mt-8 flex gap-4 justify-start">
+        <div className="mt-8 flex gap-1 justify-between lg:justify-start">
           <button
             type="button"
             onClick={onPrevious}
-            className="bg-gray-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200 flex items-center space-x-2 cursor-pointer"
+            className="bg-gray-600 hover:bg-blue-700 text-white font-medium py-2 px-3 lg:px-6 rounded-md shadow-sm transition-colors duration-200 flex items-center space-x-2 cursor-pointer"
           >
             <i className="fa-solid fa-arrow-left"></i>
             <span>Previous</span>
@@ -158,10 +158,11 @@ const EmployerSocialLinksForm = ({ onNext, onPrevious }) => {
           <button
             type="submit"
             // onClick={onNext}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md shadow-sm transition-colors duration-200"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 lg:px-6 rounded-md shadow-sm transition-colors duration-200 space-x-2"
             disabled={loading}
           >
             <span>{loading ? 'Saving...' : 'Save & Next'}</span>
+            <i className="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>

@@ -5,7 +5,6 @@ import TopHeader from "../assets/component/home-component/TopHeader"
 function CandidateAccountSetup() {
   return (
     <>
-    <TopHeader />
     <DashboardHeader />
     <CandidateAccountSetupMain />
     </>

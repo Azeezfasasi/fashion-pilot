@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { UserContext } from "../../context-api/user/UserContext";
+import { useContext } from "react";
 
 // Reusable Double Checkmark Icon for success
 const DoubleCheckmarkIcon = ({ className = 'h-10 w-10' }) => (
@@ -9,6 +11,7 @@ const DoubleCheckmarkIcon = ({ className = 'h-10 w-10' }) => (
 
 
 const ProfileCompletionSuccess = () => {
+  const { isEmployer, isCandidate} = useContext(UserContext);
   return (
     <div className="font-sans antialiased bg-gray-50 min-h-screen p-6 flex justify-center items-center">
       <div className="max-w-md mx-auto bg-white rounded-lg shadow-xl p-8 text-center">
@@ -25,9 +28,7 @@ const ProfileCompletionSuccess = () => {
 
         {/* Descriptive Text */}
         <p className="text-gray-600 text-sm leading-relaxed mb-8">
-          Donec hendrerit, ante mattis pellentesque eleifend, tortor urna
-          malesuada ante, eget aliquam nulla augue hendrerit ligula. Nunc
-          mauris arcu, mattis sed sem vitae.
+          Your profile is now complete! You’re ready to explore new opportunities, connect with top employers, and take the next step in your career journey.
         </p>
 
         {/* Action Buttons */}
@@ -37,7 +38,8 @@ const ProfileCompletionSuccess = () => {
           >
             View Dashboard
           </Link>
-          <Link to="/app/postjob"
+
+          {isEmployer && <Link to="/app/postjob"
             className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition-colors duration-200 shadow-sm flex items-center justify-center space-x-2"
           >
             <span>Post Job</span>
@@ -45,6 +47,17 @@ const ProfileCompletionSuccess = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
             </svg>
           </Link>
+          }
+
+          {isCandidate && <Link to="/app/joblist"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition-colors duration-200 shadow-sm flex items-center justify-center space-x-2"
+          >
+            <span>Find Job</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          </Link>
+          }
         </div>
       </div>
     </div>

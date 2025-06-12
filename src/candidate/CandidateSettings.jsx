@@ -8,11 +8,11 @@ function CandidateSettings() {
     <>
     <TopHeader />
     <DashboardHeader />
-    <div className="w-full flex flex-row">
-      <div className="w-[20%]">
+    <div className="w-full flex flex-col lg:flex-row">
+      <div className="w-full hidden lg:block lg:w-[20%] mb-4 lg:mb-0">
         <SideMenu />
       </div>
-      <div className="w-[80%]">
+      <div className="w-full lg:w-[80%]">
         <CandidateSettingsMain />
       </div>
 
