@@ -15,7 +15,7 @@ function MainHeader() {
       <div className="flex items-center gap-4 md:gap-8">
         <Link to="/" className="flex items-center gap-2">
           <img className="w-10 h-10" src={briefcase} alt="Jobpilot Logo" />
-          <div className="text-gray-900 font-semibold text-2xl font-['Inter-SemiBold',_sans-serif]">Fashion pilot</div>
+          <div className="text-gray-900 font-semibold text-[18px] md:text-2xl font-['Inter-SemiBold',_sans-serif]">Fashion pilot</div>
         </Link>
       </div>
 
