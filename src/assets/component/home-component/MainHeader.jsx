@@ -4,6 +4,7 @@ import { FaBars, FaTimes } from 'react-icons/fa'
 import { useContext } from 'react';
 import { UserContext } from '../../context-api/user/UserContext';
 import account from '../../images/account.png';
+import SideMenu from '../general-component/SideMenu';
 
 function MainHeader() {
   const { user, isCandidate, isEmployer } = useContext(UserContext);
@@ -27,11 +28,6 @@ function MainHeader() {
             </Link>
           ) : (
             <Link to="/app/dashboard" className="flex items-center gap-2">
-              {/* <img
-                src={user && user.logo ? user.logo : account}
-                alt="Profile"
-                className="w-10 h-10 rounded-full object-cover border border-gray-200"
-              /> */}
               <img
               className='w-10 h-10 rounded-full object-cover border border-gray-200'
               src={
@@ -51,6 +47,7 @@ function MainHeader() {
         </Link>
       </div>
 
+      {/* Mobile Nav */}
       <div className="md:hidden flex gap-3 items-center">
         {!user ? (
             <Link to="/login" className="rounded border border-primary-100 py-3 px-6 flex items-center hover:bg-primary-50 transition">
@@ -59,9 +56,15 @@ function MainHeader() {
           ) : (
             <Link to="/app/dashboard" className="flex items-center gap-2">
               <img
-                src={user.profileImage || account}
-                alt="Profile"
-                className="w-10 h-10 rounded-full object-cover border border-gray-200"
+              className='w-10 h-10 rounded-full object-cover border border-gray-200'
+              src={
+                  isEmployer && user.logo
+                  ? user.logo
+                  : isCandidate && user.profileImage
+                  ? user.profileImage
+                  : account
+              }
+              alt="Account"
               />
               <span className="text-gray-800 font-medium hidden md:inline">{user.firstName || user.company}</span>
             </Link>
