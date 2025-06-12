@@ -11,7 +11,7 @@ function JobCard({ job }) {
       <div
         className={`flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 rounded-lg border ${job.isFeatured ? 'border-blue-500' : 'border-gray-200'} bg-white shadow-sm relative`}
       >
-        <img src={job.companyLogo} alt={job.jobTitle} className="w-14 h-14 object-contain rounded-md bg-gray-50" />
+        <img src={job.companyLogo} alt={job.jobTitle} className="w-14 h-14 rounded-lg object-contain bg-gray-50" />
         <div className="flex-1 w-full">
           <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
             <h3 className="text-lg font-semibold text-gray-800">{job.jobTitle}</h3>

@@ -1,9 +1,11 @@
 import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../context-api/user/UserContext';
+import { API_BASE_URL } from '../../config/api';
 
 const BasicInformationFormOnly = ({ onNext }) => {
   const { user, updateProfile, loading, error } = useContext(UserContext);
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [profileImage, setProfileImage] = useState('');
+  const [profileUploading, setProfileUploading] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [headline, setHeadline] = useState('');
@@ -13,7 +15,7 @@ const BasicInformationFormOnly = ({ onNext }) => {
 
   useEffect(() => {
     if (user) {
-      setProfilePicture(user.profilePicture || null);
+      setProfileImage(user.profileImage || '');
       setFirstName(user.firstName || '');
       setLastName(user.lastName || '');
       setHeadline(user.headline || '');
@@ -23,10 +25,36 @@ const BasicInformationFormOnly = ({ onNext }) => {
     }
   }, [user]);
 
+  // Upload profile image to backend/Cloudinary
+  const handleProfileImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('image', file);
+    setProfileUploading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_BASE_URL}/users/upload-profile`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      const data = await res.json();
+      setProfileImage(data.imageUrl);
+    } catch (err) {
+      console.log(err);
+      alert('Image upload failed');
+    } finally {
+      setProfileUploading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
      const success = await updateProfile({
-      profilePicture,
+      profileImage,
       firstName,
       lastName,
       headline,
@@ -53,11 +81,19 @@ const BasicInformationFormOnly = ({ onNext }) => {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
             <div className="relative w-48 h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-center p-4">
-              <input type="file" value={profilePicture} onChange={(e) => setProfilePicture(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a3 3 0 013 3v10a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h4"></path>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0l-3-3m3 3l3-3"></path>
-              </svg>
+              <input type="file" accept="image/*" onChange={handleProfileImageChange} className="absolute inset-0 opacity-0 cursor-pointer" disabled={profileUploading} />
+
+              {profileUploading ? (
+                <span className="text-blue-600">Uploading...</span>
+              ) : profileImage ? (
+                <img src={profileImage} alt="Profile" className="w-14 h-14 rounded-full object-cover mb-2" />
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a3 3 0 013 3v10a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h4"></path>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0l-3-3m3 3l3-3"></path>
+                </svg>
+              )}
+
               <p className="text-sm text-gray-600 mb-1">
                 <span className="font-medium text-blue-600">Browse photo</span> or drop here
               </p>

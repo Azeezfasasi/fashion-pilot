@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import briefcase from '../../images/briefcase.svg'
-// import search from '../../images/search.svg'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import DashProfileHeaderDropdown from './DashProfileHeaderDropdown'
 import SideMenu from './SideMenu'

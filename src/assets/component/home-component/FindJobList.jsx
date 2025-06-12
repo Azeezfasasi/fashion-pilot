@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import employeelogo from '../../images/employeelogo.svg'
 import location from '../../images/location.svg'
-import bookmark from '../../images/bookmark.svg'
 import useJob from '../../context-api/job/useJob';
 import { useEffect } from 'react';
 
@@ -17,7 +16,7 @@ function FindJobsList() {
     <>
       <div className="bg-white pt-[40px] pr-[30px] pb-[40px] pl-[30px] flex flex-col gap-[50px] items-start justify-start shrink-0 relative" style={{ boxShadow: "inset 0px -1px 0px 0px rgba(228, 229, 232, 1)" }}>
         {/* Featured Jobs */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 items-start justify-center relative mx-auto flex-wrap">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 items-start justify-center relative mx-auto flex-wrap">
           {loading ? (
             <div>Loading jobs...</div>
           ) : error ? (
@@ -46,7 +45,7 @@ function FindJobsList() {
                 </div>
                 <div className="flex flex-row gap-3 items-center justify-center self-stretch shrink-0 relative">
                   <div className="bg-[#edeff5] rounded p-3 flex flex-row gap-2.5 items-start justify-start shrink-0 relative">
-                    <img className="shrink-0 w-6 h-6 relative overflow-visible" src={employeelogo} alt="employer logo" />
+                    <img className="shrink-0 w-6 h-6 relative overflow-visible" src={job.employer?.logo || employeelogo} alt="employer logo" />
                   </div>
                   <div className="flex flex-col gap-1 items-start justify-start flex-1 relative">
                     <div className="text-[#18191c] text-left font-body-medium-500-font-family text-[16px] leading-[24px] font-[500] relative self-stretch">
@@ -60,9 +59,6 @@ function FindJobsList() {
                         {job.location || 'Location not specified'}
                       </div>
                     </div>
-                  </div>
-                  <div className="shrink-0 w-6 h-6 relative">
-                    <img className="w-[100%] h-[100%] absolute right-[0%] left-[0%] bottom-[0%] top-[0%] overflow-visible" src={bookmark} alt="bookmark" />
                   </div>
                 </div>
               </Link>

@@ -6,7 +6,7 @@ import { UserContext } from '../../context-api/user/UserContext';
 import account from '../../images/account.png';
 
 function MainHeader() {
-  const { user } = useContext(UserContext);
+  const { user, isCandidate, isEmployer } = useContext(UserContext);
 
   return (
   <>
@@ -27,10 +27,21 @@ function MainHeader() {
             </Link>
           ) : (
             <Link to="/app/dashboard" className="flex items-center gap-2">
-              <img
-                src={user.profileImage || account}
+              {/* <img
+                src={user && user.logo ? user.logo : account}
                 alt="Profile"
                 className="w-10 h-10 rounded-full object-cover border border-gray-200"
+              /> */}
+              <img
+              className='w-10 h-10 rounded-full object-cover border border-gray-200'
+              src={
+                  isEmployer && user.logo
+                  ? user.logo
+                  : isCandidate && user.profileImage
+                  ? user.profileImage
+                  : account
+              }
+              alt="Account"
               />
               <span className="text-gray-800 font-medium hidden md:inline">{user.firstName || user.company}</span>
             </Link>

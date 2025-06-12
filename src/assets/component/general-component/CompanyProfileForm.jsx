@@ -1,10 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../context-api/user/UserContext';
+import { API_BASE_URL } from '../../config/api';
 
 const CompanyProfileForm = ({ onNext }) => {
   const { user, updateProfile, loading, error } = useContext(UserContext);
-  const [logoFile, setLogoFile] = useState(null);
-  const [bannerFile, setBannerFile] = useState(null);
+  const [logoUrl, setLogoUrl] = useState('');
+  const [bannerUrl, setBannerUrl] = useState('');
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [bannerUploading, setBannerUploading] = useState(false);
 
   // State for text inputs
   const [company, setCompany] = useState('');
@@ -14,57 +17,64 @@ const CompanyProfileForm = ({ onNext }) => {
     if (user) {
       setCompany(user.company || '');
       setAboutUs(user.aboutUs || '');
-      setLogoFile(user.logo || null);
-      setBannerFile(user.bannerImage || null);
+      setLogoUrl(user.logo || '');
+      setBannerUrl(user.bannerImage || '');
     }
   }, [user]);
+
+  // Upload file to backend (Cloudinary) and get URL
+  const uploadImage = async (file, type) => {
+    const formData = new FormData();
+    formData.append(type, file);
+    const endpoint = type === 'logo'
+      ? `${API_BASE_URL}/users/upload-logo`
+      : `${API_BASE_URL}/users/upload-banner`;
+    try {
+      type === 'logo' ? setLogoUploading(true) : setBannerUploading(true);
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formData,
+      });
+      const data = await res.json();
+      if (type === 'logo') setLogoUrl(data.logoUrl);
+      else setBannerUrl(data.bannerUrl);
+    } catch (err) {
+      console.log(err)
+      alert('Image upload failed');
+    } finally {
+      type === 'logo' ? setLogoUploading(false) : setBannerUploading(false);
+    }
+  };
 
   // Handler for file input changes
   const handleFileChange = (e, type) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      if (type === 'logo') {
-        setLogoFile(file);
-      } else {
-        setBannerFile(file);
-      }
-    } else {
-      if (type === 'logo') {
-        setLogoFile(null);
-      } else {
-        setBannerFile(null);
-      }
+      uploadImage(e.target.files[0], type);
     }
   };
 
   // Handler for text input changes
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    if (id === 'company') {
-      setCompany(value);
-    } else if (id === 'aboutUs') {
-      setAboutUs(value);
-    }
+    if (id === 'company') setCompany(value);
+    else if (id === 'aboutUs') setAboutUs(value);
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-     const success = await updateProfile({
+    const success = await updateProfile({
       company,
       aboutUs,
-      logo: logoFile ? logoFile.name : '',
-      bannerImage: bannerFile ? bannerFile.name : '',
+      logo: logoUrl,
+      bannerImage: bannerUrl,
     });
-    if (onNext) onNext();
-    console.log('Success result:', success);
-    if (success) {
-      console.log('onNext:', onNext);
-      if (onNext) onNext();
-    }
-  }
+    if (success && onNext) onNext();
+  };
 
-  
   return (
     <div className="font-sans antialiased bg-gray-50 min-h-screen p-6 flex justify-center items-start">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8 w-full">
@@ -82,15 +92,22 @@ const CompanyProfileForm = ({ onNext }) => {
                   className="absolute inset-0 opacity-0 cursor-pointer"
                   accept="image/*"
                   onChange={(e) => handleFileChange(e, 'logo')}
+                  disabled={logoUploading}
                 />
-                <i className="fa-solid fa-cloud-arrow-up text-[28px] text-blue-600"></i>
+                {logoUploading ? (
+                  <span className="text-blue-600">Uploading...</span>
+                ) : logoUrl ? (
+                  <img src={logoUrl} alt="Logo" className="h-16 mb-2 object-contain" />
+                ) : (
+                  <i className="fa-solid fa-cloud-arrow-up text-[28px] text-blue-600"></i>
+                )}
                 <p className="text-sm text-gray-600 mb-1">
                   <span className="font-medium text-blue-600">Browse photo</span> or drop here
                 </p>
                 <p className="text-xs text-gray-500">
-                  A photo larger than 400 pixels work best. Max photo size 5 MB.
+                  A photo larger than 400 pixels works best. Max photo size 5 MB.
                 </p>
-                {logoFile && <p className="text-xs text-green-600 mt-1">File selected: {logoFile.name}</p>}
+                {logoUrl && <p className="text-xs text-green-600 mt-1">Logo uploaded!</p>}
               </div>
             </div>
 
@@ -103,15 +120,22 @@ const CompanyProfileForm = ({ onNext }) => {
                   className="absolute inset-0 opacity-0 cursor-pointer"
                   accept="image/*"
                   onChange={(e) => handleFileChange(e, 'banner')}
+                  disabled={bannerUploading}
                 />
-                <i className="fa-solid fa-cloud-arrow-up text-[28px] text-blue-600"></i>
+                {bannerUploading ? (
+                  <span className="text-blue-600">Uploading...</span>
+                ) : bannerUrl ? (
+                  <img src={bannerUrl} alt="Banner" className="h-16 mb-2 object-contain" />
+                ) : (
+                  <i className="fa-solid fa-cloud-arrow-up text-[28px] text-blue-600"></i>
+                )}
                 <p className="text-sm text-gray-600 mb-1">
                   <span className="font-medium text-blue-600">Browse photo</span> or drop here
                 </p>
                 <p className="text-xs text-gray-500">
-                  Banner images optical dimension 1520x400. Supported format JPEG, PNG. Max photo size 5 MB.
+                  Banner images optimal dimension 1520x400. Supported format JPEG, PNG. Max photo size 5 MB.
                 </p>
-                {bannerFile && <p className="text-xs text-green-600 mt-1">File selected: {bannerFile.name}</p>}
+                {bannerUrl && <p className="text-xs text-green-600 mt-1">Banner uploaded!</p>}
               </div>
             </div>
           </div>
@@ -164,4 +188,3 @@ const CompanyProfileForm = ({ onNext }) => {
 };
 
 export default CompanyProfileForm;
-

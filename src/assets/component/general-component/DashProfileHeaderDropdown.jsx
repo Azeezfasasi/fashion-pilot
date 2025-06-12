@@ -37,7 +37,17 @@ function DashProfileHeaderDropdown() {
             aria-haspopup="true"
             aria-expanded={dropdownOpen}
             >
-                <img className='w-[50px] h-[50px]' src={account} alt="Account" />
+                <img
+                className='w-[50px] h-[50px] rounded-full object-cover border border-gray-200'
+                src={
+                    isEmployer && user.logo
+                    ? user.logo
+                    : isCandidate && user.profileImage
+                    ? user.profileImage
+                    : account
+                }
+                alt="Account"
+                />
                 <div>
                 {isEmployer && <div className='font-semibold'>{user.company}</div>}
                 {isCandidate && <div className='font-semibold'>{user.firstName} {user.lastName}</div>}

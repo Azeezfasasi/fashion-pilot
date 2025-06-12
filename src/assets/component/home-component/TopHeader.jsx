@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import phonecall from '../../images/phonecall.svg'
 import { useState } from "react"
 import { FaBars, FaTimes } from "react-icons/fa"
+import language from '../../images/language.png';
 
 function TopHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,12 +59,12 @@ function TopHeader() {
               alt="Phone"
             />
           </div>
-          <div className="text-gray-900 font-medium">+1-202-555-0178</div>
+          <div className="text-gray-900 font-medium">(+234) 08117256648</div>
         </div>
         <div className="flex items-center gap-2">
           <img
             className="w-6 h-4 object-cover"
-            src="image-10.png"
+            src={language}
             alt="Language"
           />
           <select className="border-none bg-transparent text-gray-600 font-medium focus:outline-none">

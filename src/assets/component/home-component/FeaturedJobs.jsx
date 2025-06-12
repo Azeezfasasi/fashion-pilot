@@ -21,7 +21,7 @@ function FeaturedJobs() {
 
   return (
     <>
-      <div className="bg-white pt-[40px] pr-[30px] pb-[40px] pl-[30px] flex flex-col gap-[50px] items-start justify-start shrink-0 relative" style={{ boxShadow: "inset 0px -1px 0px 0px rgba(228, 229, 232, 1)" }}>
+      <div className="bg-white pt-[40px] pr-[30px] pb-[40px] pl-[30px] flex flex-col gap-[50px] items-start justify-start shrink-0 relative overflow-x-hidden" style={{ boxShadow: "inset 0px -1px 0px 0px rgba(228, 229, 232, 1)" }}>
         {/* Title */}
         <div className="flex flex-col md:flex-row gap-4 md:gap-0 items-center justify-between shrink-0 w-full relative">
           <div className="text-[#18191c] text-justified font-heading-01-font-family text-[30px] md:text-[40px] leading-[48px] font-[500] relative">
@@ -40,7 +40,7 @@ function FeaturedJobs() {
         </div>
 
         {/* Featured Jobs */}
-        <div className="flex flex-col lg:flex-row gap-6 items-start justify-center relative mx-auto">
+        <div className="flex flex-col lg:flex-row flex-wrap gap-6 items-start justify-center relative mx-auto">
           {loading ? (
             <div>Loading jobs...</div>
           ) : error ? (

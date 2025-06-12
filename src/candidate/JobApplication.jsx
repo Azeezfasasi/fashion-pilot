@@ -5,9 +5,10 @@ import useJob from '../assets/context-api/job/useJob';
 import useUser from '../assets/context-api/user/useUser';
 import { useParams } from 'react-router-dom';
 import DashboardHeader from '../assets/component/general-component/DashboardHeader';
+import { API_BASE_URL } from '../assets/config/api';
 
 function JobApplication() {
-  const { applyToJob, loading, error } = useApplication();
+  const { loading, error } = useApplication();
   const { id: jobId } = useParams();
   const { job, fetchJob } = useJob();
   const { user } = useUser();
@@ -21,15 +22,34 @@ function JobApplication() {
     // eslint-disable-next-line
   }, [jobId, user]);
 
+  const handleResumeChange = (e) => {
+    setResume(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccess('');
-    const result = await applyToJob({ jobId, coverLetter, resume });
-    console.log('jobId:', jobId);
-    if (result) {
-      setSuccess('Application submitted successfully!');
+    const formData = new FormData();
+    formData.append('jobId', jobId);
+    formData.append('coverLetter', coverLetter);
+    if (resume) formData.append('resume', resume);
+
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_BASE_URL}/applications/apply`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    const result = await res.json();
+    if (res.ok) {
+      console.log(result);
+      setSuccess('Job application submitted successfully!');
       setCoverLetter('');
-      // Optionally keep resume prefilled
+      setResume(null);
+    } else {
+      // handle error
     }
   };
 
@@ -78,8 +98,9 @@ function JobApplication() {
             <input
               type="file"
               name="resume"
-              value={resume}
-              onChange={e => setResume(e.target.value)}
+              accept=".pdf,.doc,.docx"
+              // value={resume}
+              onChange={handleResumeChange}
               required
               className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Paste your resume link or text here"

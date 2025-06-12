@@ -4,6 +4,7 @@ import useJob from '../../context-api/job/useJob';
 // import bookmarkblue from '../../images/bookmarkblue.svg';
 import arrowrightwhite from '../../images/arrowrightwhite.svg';
 import SaveToFavorite from './SaveToFavorite';
+import account from '../../images/account.png';
 
 function TopJobDescription() {
   const { id } = useParams();
@@ -28,8 +29,8 @@ function TopJobDescription() {
         <div className='w-full flex flex-row gap-4 sm:gap-6 items-center justify-start sm:w-auto'>
             {/* Company Logo */}
             <img
-              className="rounded-full w-20 h-20 sm:w-24 sm:h-24 bg-transparent mx-auto sm:mx-0 border border-solid border-gray-200"
-              src={job.employer?.logo || '/default-logo.png'}
+              className="rounded-full w-20 h-20 sm:w-24 sm:h-24 bg-transparent mx-auto sm:mx-0 border border-solid border-gray-200 object-cover"
+              src={job.employer?.logo || account}
               alt="Company Logo"
             />
 
