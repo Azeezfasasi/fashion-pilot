@@ -49,8 +49,8 @@ function DashProfileHeaderDropdown() {
                 alt="Account"
                 />
                 <div>
-                {isEmployer && <div className='font-semibold'>{user.company}</div>}
-                {isCandidate && <div className='font-semibold'>{user.firstName} {user.lastName}</div>}
+                {isEmployer && <div className='hidden lg:block font-semibold'>{user.company}</div>}
+                {isCandidate && <div className='hidden lg:block font-semibold'>{user.firstName} {user.lastName}</div>}
             </div>
             </button>
             {dropdownOpen && (

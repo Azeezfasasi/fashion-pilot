@@ -55,7 +55,7 @@ function JobApplication() {
 
   return (
     <>
-      <TopHeader />
+      {/* <TopHeader /> */}
       <DashboardHeader />
       <div className="max-w-xl mx-auto mt-10 bg-white shadow rounded-lg p-8">
         <h2 className="text-2xl font-bold mb-6 text-gray-800">Apply for this Job</h2>
