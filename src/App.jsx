@@ -1,4 +1,3 @@
-// import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './app/Home'
 import Login from './Login'
@@ -43,6 +42,7 @@ import { JobProvider } from './assets/context-api/job/JobProvider'
 import { ApplicationProvider } from './assets/context-api/application/ApplicationProvider'
 import JobApplication from './candidate/JobApplication'
 import Applicants from './employer/Applicants'
+import ScrollToTop from './assets/component/general-component/ScrollToTop'
 
 function App() {
 
@@ -51,6 +51,7 @@ function App() {
     <UserProvider>
       <JobProvider>
         <ApplicationProvider>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
